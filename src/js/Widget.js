@@ -4,7 +4,6 @@ export default class Widget {
   constructor() {
     this.news = document.querySelector('.news_box');
     this.btn = document.querySelector('.btn_reload');
-    this.conteiner = document.querySelector('.content_box');
     this.server = 'https://web-workers-back.onrender.com/posts';
   }
 
@@ -33,7 +32,7 @@ export default class Widget {
         errLoad.className = 'err_load';
         errLoad.textContent = 'Не удалось загрузить данные Проверте подключение и обновите страницу';
         document.body.append(errLoad);
-        this.conteiner.style.opacity = 0.2;
+        document.querySelector('.content_box').style.opacity = 0.2;
       }
     })();
   }
@@ -44,7 +43,7 @@ export default class Widget {
     post.innerHTML = `
         <div>${data.title}</div>
         <div>
-            <img src="${data.img}">
+            <img src="${data.image}">
             <div>${data.description}</div>
         </div>
         `;
