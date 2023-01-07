@@ -39,9 +39,9 @@ export default class Widget {
 
   getNews(data) {
     const post = document.createElement('div');
-    post.className = 'news-post';
+    post.className = 'news_post';
     post.innerHTML = `
-        <div>${data.title}</div>
+        <h2>${data.title}</h2>
         <div>
             <img src="${data.image}">
             <div>${data.description}</div>
@@ -58,10 +58,10 @@ export default class Widget {
 
   loadNews() {
     const postEmpty = document.createElement('div');
-    postEmpty.className = 'post_empty';
+    postEmpty.className = 'news_post';
     postEmpty.innerHTML = `
         <div class="post_empty_title"></div>
-        <div>
+        <div class="post_empty_body">
             <div class="post_empty_img"></div>
             <div class="post_empty_desc"></div>
         </div>

@@ -1,40 +1,49 @@
 const path = require('path');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const WorkboxPlugin = require('workbox-webpack-plugin');
 
 module.exports = {
   entry: './src/index.js',
   output: {
     path: path.resolve(__dirname, 'dist'),
-    publicPath: '',
   },
   module: {
-    rules: [
-      {
-        test: /\.js$/,
-        exclude: /node_modules/,
-        use: {
-          loader: 'babel-loader',
-        },
+    rules: [{
+      test: /web-worker\.js$/,
+      use: {
+        loader: 'worker-loader',
       },
-      {
-        test: /\.html$/,
-        use: [
-          {
-            loader: 'html-loader',
+    },
+    {
+      test: /\.js$/,
+      exclude: /node_modules/,
+      use: {
+        loader: 'babel-loader',
+      },
+    }, {
+      test: /\.html$/,
+      use: [{
+        loader: 'html-loader',
+      }],
+    },
+    {
+      test: /\.css$/,
+      use: [
+        MiniCssExtractPlugin.loader, 'css-loader',
+      ],
+    },
+    {
+      test: /\.(png|jpg|gif)$/i,
+      use: [
+        {
+          loader: 'url-loader',
+          options: {
+            limit: 8192,
           },
-        ],
-      },
-      {
-        test: /\.css$/,
-        use: [
-          MiniCssExtractPlugin.loader, 'css-loader',
-        ],
-      },
-      {
-        test: /\.png$/,
-        type: 'asset/resource',
-      },
+        },
+      ],
+    },
     ],
   },
   plugins: [
@@ -45,6 +54,10 @@ module.exports = {
     new MiniCssExtractPlugin({
       filename: '[name].css',
       chunkFilename: '[id].css',
+    }),
+    new WorkboxPlugin.GenerateSW({
+      clientsClaim: true,
+      skipWaiting: true,
     }),
   ],
 };
